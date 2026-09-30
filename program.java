@@ -175,6 +175,178 @@ class VehicleFactory
 
 }
 
+/////////////////////////////////////////////////////////////////////////////////
+//  Step 4 : Create ParkingSpot Hierarchy 
+//  It is used to create Hierarchy of Parking Spots
+//  Concepts : Abstraction, Inheritacne, Polymorphism, Encapsulation
+/////////////////////////////////////////////////////////////////////////////////
+
+abstract class ParkingSpot
+{
+    // unique number for parking spot (Primary Key)
+    private int spotNumber;
+
+    // Type of parking spot
+    private SpotType spotType;
+
+    // Indicates whether spot is currrent occupied or not
+    private boolean occupied;
+
+    // stores information about the vehicle
+    private Vehicle vehicle;
+
+    // Parameterised constructor
+    public ParkingSpot(int spotNumber, SpotType spotType)
+    {
+        this.spotNumber = spotNumber;
+        this.spotType = spotType;
+
+        // Initialised with default values
+        this.occupied = false;
+        this.vehicle = null;
+    }
+
+    public int getSoptNumber()
+    {
+        return this.spotNumber = spotNumber;
+    }
+
+    public SpotType getSpotType()
+    {
+        return this.spotType = spotType;
+    }
+
+    public boolean isOccupied()
+    {
+        return this.occupied;
+    }
+
+    public Vehicle getVehicle()
+    {
+        return this.vehicle;
+    }
+
+    // It is used to park the vehicle 
+    public void parkVehicle(Vehicle vehicle)
+    {
+        if(this.occupied == true)
+        {
+            throw new RuntimeException("Parking Spot is already occupied");
+        }
+        else
+        {
+            this.vehicle = vehicle;
+            this.occupied = true;
+        }
+    }
+
+    public Vehicle removeVehicle()
+    {   
+        if(this.occupied == true)
+        {
+            Vehicle temp = vehicle;
+
+            this.vehicle = null;
+            this.occupied = false;
+
+            return temp;
+        }
+        else
+        {
+            throw new RuntimeException("ParkingSpot is already empty");            
+        }
+    }
+
+//  This method decide wheter we can park it in the sopt or not
+    public abstract boolean canFitVehicle(Vehicle vehicle);
+    public void display()
+    {
+        System.out.println("Spot : " + spotNumber + "[ " + spotType + " ]");
+
+        if(this.occupied == true)
+        {
+            System.out.println("Occupied by : " + vehicle.getVehicleNumber());
+        }
+        else    
+        {
+            System.out.println("Spot is available");
+        }
+    }
+}   // End of ParkingSpot class
+
+class BikeSpot extends ParkingSpot
+{
+
+        public BikeSpot(int spotNumber)
+        {
+            super(spotNumber, SpotType.BIKE);
+        }
+
+        @Override 
+        public  boolean canFitVehicle(Vehicle vehicle)
+        {
+            // return vehicle.getVehicleType() == VehicleType.BIKE; or
+
+            if(vehicle.getVehicleType() == VehicleType.BIKE)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+}
+
+class CarSpot extends ParkingSpot
+{
+
+        public CarSpot(int spotNumber)
+        {
+            super(spotNumber, SpotType.CAR);
+        }
+
+        @Override 
+        public  boolean canFitVehicle(Vehicle vehicle)
+        {
+            // return vehicle.getVehicleType() == VehicleType.BIKE; or
+
+            if(vehicle.getVehicleType() == VehicleType.CAR)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+}
+
+class TruckSpot extends ParkingSpot
+{
+
+        public TruckSpot(int spotNumber)
+        {
+            super(spotNumber, SpotType.TRUCK);
+        }
+
+        @Override 
+        public  boolean canFitVehicle(Vehicle vehicle)
+        {
+            // return vehicle.getVehicleType() == VehicleType.BIKE; or
+
+            if(vehicle.getVehicleType() == VehicleType.TRUCK)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+}
+
+
 class program
 {
     public static void main(String A[])
